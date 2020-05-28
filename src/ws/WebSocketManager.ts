@@ -22,20 +22,21 @@ export default class WebSocketManager {
     // iterate over the payloads
     for await (const msg of this.socket) {
       const payload = JSON.parse(msg.toString());
+      const opcode = payload.op;
       console.log(payload);
-      // refer to payload structure comment block
-      const {
-        t: eventName,
-        s: sequenceNumber,
-        op: opcode,
-        d: eventData,
-      } = payload;
-
-      const { heartbeat_interval } = eventData;
 
       switch (opcode) {
         // identify and send heartbeat
-        case OPCODE.TEN:
+        case OPCODE.HELLO:
+          // refer to payload structure comment block
+          const {
+            t: eventName,
+            s: sequenceNumber,
+            op: opcode,
+            d: eventData,
+          } = payload;
+
+          const { heartbeat_interval } = eventData;
           setInterval(() => {
             this.socket.send(JSON.stringify(Heartbeat));
           }, heartbeat_interval);
