@@ -1,0 +1,1 @@
+I want to write a bot to execute commands on raspberry pi, and learn WebSockets, Deno, JS, and TS along the way.
